@@ -1,0 +1,46 @@
+{
+    "name": "riadh/laravel-lang-manager",
+    "description": "Laravel package to manage multi-language translations in a simplified way.",
+    "type": "library",
+    "keywords": ["laravel", "translations", "multi-language"],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.3",
+        "illuminate/routing": "^11.33"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../laravel-lang-manager"
+        }
+    ],
+    "require-dev": {
+        "pestphp/pest": "^3.5",
+        "larastan/larastan": "^3.0",
+        "fakerphp/faker": "^1.24",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "mockery/mockery": "^1.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Riadh\\LaravelLangManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "riadh",
+            "email": "r.benchouche1@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "pest",
+        "analyse": "phpstan analyse",
+        "format": "php-cs-fixer fix"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

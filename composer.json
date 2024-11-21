@@ -10,8 +10,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../laravel-lang-manager"
+            "type": "vcs",
+            "url": "https://github.com/riadh-benchouche/laravel-lang-manager.git"
         }
     ],
     "require-dev": {

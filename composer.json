@@ -1,6 +1,9 @@
 {
     "name": "riadh/laravel-lang-manager",
     "description": "Laravel package to manage multi-language translations in a simplified way.",
+    "version": "0.0.1",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "type": "library",
     "keywords": ["laravel", "translations", "multi-language"],
     "require": {

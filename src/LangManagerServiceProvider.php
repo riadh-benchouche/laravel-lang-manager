@@ -8,52 +8,58 @@ use Illuminate\Support\Facades\Log;
 class LangManagerServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
+     * @title : Register the application services.
+     * @description : Merges the package's configuration file into the application's 'lang-manager' key.
      * @return void
      */
     public function register(): void
     {
-        // Charger le fichier de configuration dans la clé 'lang-manager'
+        // Merge the package's configuration file into the application's configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/lang-manager.php', 'lang-manager');
     }
 
     /**
-     * Boot any application services.
+     * @title : Boot the application services.
+     * @description : Loads views, routes, publishes configuration, and sets up assets and commands.
      *
      * @return void
      */
     public function boot(): void
     {
-        // Charger les vues fournies par le package
+        // Load the views provided by the package, accessible via the 'lang-manager::' namespace
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'lang-manager');
 
-        // Charger les routes fournies par le package
+        // Load the routes provided by the package
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
-        // Publier le fichier de configuration pour que l’utilisateur puisse le personnaliser
+        // Publish the configuration file, allowing users to customize it
         $this->publishes([
             __DIR__ . '/../config/lang-manager.php' => config_path('lang-manager.php'),
         ], 'config');
 
-        // Publier les vues pour permettre à l’utilisateur de les personnaliser
+        // Publish the views, enabling users to override and customize them
         $this->publishes([
             __DIR__ . '/resources/views' => resource_path('views/vendor/lang-manager'),
         ], 'views');
 
-        // Enregistrer les commandes artisan si l'application est exécutée dans la console
+        // Publish the CSS assets, allowing users to modify the styling
+        $this->publishes([
+            __DIR__ . '/../resources/css/lang-manager.css' => public_path('css/lang-manager.css'),
+        ], 'lang-manager-assets');
+
+        // Register Artisan commands if the application is running in the console
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Riadh\LaravelLangManager\Console\Commands\MakeTranslationFile::class,
             ]);
         }
 
-        // Créer automatiquement le dossier `resources/lang` s’il n’existe pas
+        // Automatically create the `resources/lang` directory if it doesn't exist
         if (!is_dir(resource_path('lang'))) {
             mkdir(resource_path('lang'), 0755, true);
         }
 
-        // Log pour confirmer que le ServiceProvider a été chargé
+        // Log a message to confirm that the ServiceProvider has been loaded
         Log::info('LangManagerServiceProvider loaded successfully.');
     }
 }

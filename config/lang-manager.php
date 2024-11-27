@@ -7,21 +7,21 @@ return [
     | Lang Manager Configuration
     |--------------------------------------------------------------------------
     |
-    | Cette configuration permet de personnaliser le comportement du package.
-    | Vous pouvez définir les langues supportées, les fichiers à inclure, et plus encore.
+    | This configuration allows you to customize the behavior of the package.
+    | You can define supported languages, included files, and other settings.
     |
     */
 
-    // Liste des langues supportées par défaut
+    // List of supported locales by default
     'locales' => ['en', 'fr'],
 
-    // Activer ou désactiver les traductions dynamiques
+    // Enable or disable dynamic translations
     'dynamic_translations' => true,
 
-    // Chemin vers le dossier des fichiers de langue
+    // Path to the language files directory
     'lang_path' => resource_path('lang'),
 
-    // Préfixe de la route du package
+    // Route prefix for the package
     'route_prefix' => 'lang-manager',
 
 ];

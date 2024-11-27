@@ -81,9 +81,12 @@ This package is open-source software licensed under the [MIT license](https://op
 ## Credits
 
 This package was created by [Riadh Benchouche](https://riadhben.com).
+<br>
 Laravel Fullstack Developer
-[![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/riadh-benchouche/)
-[![GitHub](https://i.stack.imgur.com/tskMh.png) GitHub](https://www.github.com/riadh-benchouche)
+<br>
+[![Linkedin](https://www.linkedin.com/in/riadh-benchouche/)
+<br>
+[![GitHub](https://www.github.com/riadh-benchouche)
 
 
 

@@ -35,12 +35,12 @@ class LangManagerServiceProvider extends ServiceProvider
         // Publish the configuration file, allowing users to customize it
         $this->publishes([
             __DIR__ . '/../config/lang-manager.php' => config_path('lang-manager.php'),
-        ], 'config');
+        ], 'lang-manager-config');
 
         // Publish the views, enabling users to override and customize them
         $this->publishes([
             __DIR__ . '/resources/views' => resource_path('views/vendor/lang-manager'),
-        ], 'views');
+        ], 'lang-manager-views');
 
         // Publish the CSS assets, allowing users to modify the styling
         $this->publishes([

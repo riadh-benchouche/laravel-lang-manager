@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Riadh\\LaravelLangManager\\LaravelLangManagerServiceProvider"
+                "Riadh\\LaravelLangManager\\LangManagerServiceProvider"
             ]
         }
     }

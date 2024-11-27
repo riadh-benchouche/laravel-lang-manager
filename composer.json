@@ -12,7 +12,10 @@
     "require": {
         "php": "^8.2",
         "illuminate/support": "^11.3",
-        "illuminate/routing": "^11.33"
+        "illuminate/routing": "^11.33",
+        "illuminate/view": "^11.3",
+        "illuminate/filesystem": "^11.3",
+        "illuminate/console": "^11.3"
     },
     "repositories": {
         "laravel-lang-manager": {

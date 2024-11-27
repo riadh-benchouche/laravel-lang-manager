@@ -5,44 +5,55 @@ namespace Riadh\LaravelLangManager;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 
-/**
- * @Title Service provider for the Laravel Lang Manager package.
- * @Desciption Handles registration and bootstrapping of services and resources.
- */
 class LangManagerServiceProvider extends ServiceProvider
 {
     /**
-     * @Title : Register any application services.
-     *
-     * @Desciption : This method is used to merge the package's configuration file
-     * into the application's existing configuration.
+     * Register any application services.
      *
      * @return void
      */
     public function register(): void
     {
+        // Charger le fichier de configuration dans la clé 'lang-manager'
         $this->mergeConfigFrom(__DIR__ . '/../config/lang-manager.php', 'lang-manager');
     }
 
     /**
-     *
-     * @Title : Boot any application services.
-     * @Desciption : This method loads views, publishes configuration files, and performs
-     * any other setup required when the package is booted.
+     * Boot any application services.
      *
      * @return void
      */
     public function boot(): void
     {
-        // Load the views provided by the package
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lang-manager');
+        // Charger les vues fournies par le package
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'lang-manager');
 
-        // Publish the package's configuration file to the application's config path
+        // Charger les routes fournies par le package
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+
+        // Publier le fichier de configuration pour que l’utilisateur puisse le personnaliser
         $this->publishes([
             __DIR__ . '/../config/lang-manager.php' => config_path('lang-manager.php'),
         ], 'config');
 
-        // Log a message indicating the service provider has been loaded
+        // Publier les vues pour permettre à l’utilisateur de les personnaliser
+        $this->publishes([
+            __DIR__ . '/resources/views' => resource_path('views/vendor/lang-manager'),
+        ], 'views');
+
+        // Enregistrer les commandes artisan si l'application est exécutée dans la console
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Riadh\LaravelLangManager\Console\Commands\MakeTranslationFile::class,
+            ]);
+        }
+
+        // Créer automatiquement le dossier `resources/lang` s’il n’existe pas
+        if (!is_dir(resource_path('lang'))) {
+            mkdir(resource_path('lang'), 0755, true);
+        }
+
+        // Log pour confirmer que le ServiceProvider a été chargé
         Log::info('LangManagerServiceProvider loaded successfully.');
     }
 }

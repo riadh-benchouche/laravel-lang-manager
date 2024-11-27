@@ -2,38 +2,58 @@
 
 namespace Riadh\LaravelLangManager\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Riadh\LaravelLangManager\Services\TranslationService;
+use Illuminate\View\View;
 
-/**
- * Controller to handle translation management endpoints.
- */
 class TranslationController extends Controller
 {
-    protected TranslationService $service;
-
     /**
-     * @Title : TranslationController constructor.
+     * Affiche les traductions disponibles.
      *
-     * @param TranslationService $service The translation service for managing translations.
+     * @return View
      */
-    public function __construct(TranslationService $service)
+    public function index(): View
     {
-        $this->service = $service;
+        // Récupérer toutes les langues disponibles dans resources/lang
+        $languages = glob(resource_path('lang/*'), GLOB_ONLYDIR);
+        $translations = [];
+
+        foreach ($languages as $languagePath) {
+            $language = basename($languagePath);
+            $files = glob($languagePath . '/*.php');
+            foreach ($files as $file) {
+                $translations[$language][basename($file, '.php')] = include $file;
+            }
+        }
+
+        return view('lang-manager::translations', compact('translations'));
     }
 
     /**
-     * @Title : Display translations for a given locale.
+     * Met à jour les fichiers de traduction.
      *
-     * @param string $locale The locale to display translations for (e.g., 'en', 'fr').
-     * @return JsonResponse A JSON response containing the translations.
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function show(string $locale): JsonResponse
+    public function update(Request $request): RedirectResponse
     {
-        $translations = $this->service->readTranslations($locale);
+        // Récupérer les données du formulaire
+        $data = $request->input('translations', []);
 
-        return Response::json($translations);
+        foreach ($data as $locale => $files) {
+            foreach ($files as $file => $translations) {
+                $path = resource_path("lang/$locale/$file.php");
+
+                // Générer le contenu PHP
+                $content = "<?php\n\nreturn " . var_export($translations, true) . ";\n";
+
+                // Sauvegarder dans le fichier
+                file_put_contents($path, $content);
+            }
+        }
+
+        return redirect()->route('lang-manager.index')->with('success', 'Translations updated successfully!');
     }
 }

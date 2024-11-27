@@ -44,7 +44,7 @@ class LangManagerServiceProvider extends ServiceProvider
 
         // Publish the CSS assets, allowing users to modify the styling
         $this->publishes([
-            __DIR__ . '/../resources/css/lang-manager.css' => public_path('css/lang-manager.css'),
+            __DIR__ . '/resources/css/lang-manager.css' => public_path('css/lang-manager.css'),
         ], 'lang-manager-assets');
 
         // Register Artisan commands if the application is running in the console

@@ -84,9 +84,7 @@ This package was created by [Riadh Benchouche](https://riadhben.com).
 <br>
 Laravel Fullstack Developer
 <br>
-[![Linkedin](https://www.linkedin.com/in/riadh-benchouche/)
-<br>
-[![GitHub](https://www.github.com/riadh-benchouche)
+[Linkedin](https://www.linkedin.com/in/riadh-benchouche/) | [GitHub](https://www.github.com/riadh-benchouche)
 
 
 

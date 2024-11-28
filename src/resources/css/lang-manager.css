@@ -51,3 +51,16 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+button.delete-row {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button.delete-row:hover {
+    background-color: #e63939;
+}

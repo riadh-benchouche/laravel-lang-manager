@@ -59,7 +59,7 @@ return [
    Use the Artisan command to create new translation files:
 
 ```bash
-php artisan lang:add en
+php artisan lang-manager:make {locale} {file}
 ```
 
 ### Example

@@ -37,7 +37,7 @@ class TranslationController extends Controller
     }
 
     /**
-     * @title: Update the translation files.`
+     * @title: Update the translation files.
      * @description: Updates the translation files with the new data from the form.
      * @param Request $request
      * @return RedirectResponse
@@ -46,21 +46,53 @@ class TranslationController extends Controller
     {
         // Retrieve the translations data from the form
         $data = $request->input('translations', []);
+        $newKeys = $request->input('new_key', []);
+        $newTranslations = $request->input('new_translations', []);
 
+        // Handle updating existing translations
         foreach ($data as $locale => $files) {
             foreach ($files as $file => $translations) {
-                // Define the path to the translation file
-                $path = resource_path("lang/$locale/$file.php");
-
-                // Generate the PHP content for the translation file
-                $content = "<?php\n\nreturn " . var_export($translations, true) . ";\n";
-
-                // Save the content into the translation file
-                file_put_contents($path, $content);
+                $this->saveTranslations($locale, $file, $translations);
             }
         }
 
-        // Redirect back to the translation index page with a success message
+        // Handle adding new translations
+        foreach ($newKeys as $index => $key) {
+            foreach ($newTranslations as $locale => $values) {
+                $file = 'messages'; // Default file for new translations; modify as needed
+                $path = resource_path("lang/$locale/$file.php");
+
+                // Load existing translations or create a new array
+                $existingTranslations = file_exists($path) ? include $path : [];
+
+                // Add the new key-value pair
+                $existingTranslations[$key] = $values[$index] ?? '';
+
+                // Save the updated translations
+                $this->saveTranslations($locale, $file, $existingTranslations);
+            }
+        }
+
+        // Redirect back with a success message
         return redirect()->route('lang-manager.index')->with('success', 'Translations updated successfully!');
+    }
+
+    /**
+     * Save translations to the specified file.
+     *
+     * @param string $locale
+     * @param string $file
+     * @param array $translations
+     * @return void
+     */
+    private function saveTranslations(string $locale, string $file, array $translations): void
+    {
+        $path = resource_path("lang/$locale/$file.php");
+
+        // Generate the PHP content for the translation file
+        $content = "<?php\n\nreturn " . var_export($translations, true) . ";\n";
+
+        // Save the content into the translation file
+        file_put_contents($path, $content);
     }
 }

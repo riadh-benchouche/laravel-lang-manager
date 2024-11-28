@@ -19,6 +19,7 @@
         <thead>
         <tr>
             <th>Key</th>
+            <th>File</th>
             @foreach (array_keys($translations) as $locale)
                 <th>{{ strtoupper($locale) }}</th>
             @endforeach
@@ -30,6 +31,9 @@
             @foreach ($keys as $key => $value)
                 <tr>
                     <td>{{ $key }}</td>
+                    <td>
+                        <input type="text" name="files[{{ $key }}]" value="{{ $file }}">
+                    </td>
                     @foreach ($translations as $locale => $files)
                         <td>
                             <input type="text" name="translations[{{ $locale }}][{{ $file }}][{{ $key }}]"
@@ -48,6 +52,7 @@
     <button type="submit">Save Changes</button>
 </form>
 
+
 <script>
     // Add a new translation row dynamically
     document.getElementById('add-row').addEventListener('click', function () {
@@ -60,8 +65,18 @@
         const keyInput = document.createElement('input');
         keyInput.type = 'text';
         keyInput.name = `new_key[]`;
+        keyInput.placeholder = 'Enter key';
         keyCell.appendChild(keyInput);
         newRow.appendChild(keyCell);
+
+        // Add an empty file name cell
+        const fileCell = document.createElement('td');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'text';
+        fileInput.name = `new_file[]`;
+        fileInput.placeholder = 'Enter file name';
+        fileCell.appendChild(fileInput);
+        newRow.appendChild(fileCell);
 
         // Add empty translation cells for each locale
         locales.forEach(locale => {
@@ -69,6 +84,7 @@
             const valueInput = document.createElement('input');
             valueInput.type = 'text';
             valueInput.name = `new_translations[${locale}][]`;
+            valueInput.placeholder = `Enter translation (${locale})`;
             valueCell.appendChild(valueInput);
             newRow.appendChild(valueCell);
         });

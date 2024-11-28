@@ -15,7 +15,8 @@
         "illuminate/routing": "^11.33",
         "illuminate/view": "^11.3",
         "illuminate/filesystem": "^11.3",
-        "illuminate/console": "^11.3"
+        "illuminate/console": "^11.3",
+        "illuminate/session": "^11.3"
     },
     "repositories": {
         "laravel-lang-manager": {

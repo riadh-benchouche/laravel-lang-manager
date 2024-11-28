@@ -44,14 +44,16 @@ class TranslationController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        // Retrieve the translations data from the form
+        // Retrieve the translations and files data from the form
         $data = $request->input('translations', []);
+        $files = $request->input('files', []);
         $newKeys = $request->input('new_key', []);
+        $newFiles = $request->input('new_file', []);
         $newTranslations = $request->input('new_translations', []);
 
         // Handle updating existing translations
-        foreach ($data as $locale => $files) {
-            foreach ($files as $file => $translations) {
+        foreach ($data as $locale => $fileTranslations) {
+            foreach ($fileTranslations as $file => $translations) {
                 $this->saveTranslations($locale, $file, $translations);
             }
         }
@@ -59,7 +61,7 @@ class TranslationController extends Controller
         // Handle adding new translations
         foreach ($newKeys as $index => $key) {
             foreach ($newTranslations as $locale => $values) {
-                $file = 'messages'; // Default file for new translations; modify as needed
+                $file = $newFiles[$index] ?? 'messages'; // Default to 'messages' if no file is specified
                 $path = resource_path("lang/$locale/$file.php");
 
                 // Load existing translations or create a new array
@@ -76,6 +78,7 @@ class TranslationController extends Controller
         // Redirect back with a success message
         return redirect()->route('lang-manager.index')->with('success', 'Translations updated successfully!');
     }
+
 
     /**
      * Save translations to the specified file.

@@ -4,6 +4,8 @@ namespace Riadh\LaravelLangManager;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Session\Middleware\StartSession;
 
 class LangManagerServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,14 @@ class LangManagerServiceProvider extends ServiceProvider
     {
         // Load the views provided by the package, accessible via the 'lang-manager::' namespace
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'lang-manager');
+
+        Route::middlewareGroup('lang-manager', [
+            StartSession::class,
+        ]);
+
+        Route::middleware('lang-manager')->group(function () {
+            $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        });
 
         // Load the routes provided by the package
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
